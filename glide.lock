@@ -1,0 +1,16 @@
+hash: 0d2b12b8233d62a426efbffbfa8c42caaa23b4573af1f922f645d4695ca22efb
+updated: 2018-06-11T19:54:57.950490667+08:00
+imports:
+- name: github.com/bsm/sarama-cluster
+  version: cf455bc755fe41ac9bb2861e7a961833d9c2ecc3
+- name: github.com/eclipse/paho.mqtt.golang
+  version: 9ec68b7894ac4cd48fc9126e910e571d50eb5d9c
+  subpackages:
+  - packets
+- name: github.com/Shopify/sarama
+  version: 35324cf48e33d8260e1c7c18854465a904ade249
+- name: golang.org/x/net/proxy
+  version: 1e491301e022f8f977054da4c2d852decd59571f
+- name: golang.org/x/net/websocket
+  version: 1e491301e022f8f977054da4c2d852decd59571f
+testImports: []
