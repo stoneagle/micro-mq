@@ -1,0 +1,47 @@
+version: '2'
+services:
+  emqtt:       
+    image: sneck/emqttd
+    container_name: ${PROJECT_NAME}-${DEV_USER}-emqtt
+    environment:
+      EMQ_TCP_PORT: 1883 
+    ports:     
+      - "${EMQTT_PORT}:1883" 
+      - "${EMQTT_MANAGE_PORT}:18083"
+    networks:  
+      - default
+  zookeeper:   
+    image: wurstmeister/zookeeper
+    container_name: ${PROJECT_NAME}-${DEV_USER}-zk
+    expose:    
+      - "2181" 
+    networks:  
+      - default
+  manager:     
+    image: sheepkiller/kafka-manager
+    container_name: ${PROJECT_NAME}-${DEV_USER}-zk-manager
+    environment:
+      ZK_HOSTS: zookeeper:2181
+      APPLICATION_SECRET: 123456
+    depends_on:
+      - zookeeper
+    ports:     
+      - "${MANAGE_PORT}:9000"
+    networks:  
+      - default
+  kafka:
+    image: wurstmeister/kafka
+    container_name: ${PROJECT_NAME}-${DEV_USER}-kafka
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - "${KAFKA_PORT}:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - default
+networks:
+  default:
+    external:
+      name: ${DEV_USER}                      
