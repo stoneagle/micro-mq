@@ -1,9 +1,25 @@
 package: .
 import:
 - package: github.com/eclipse/paho.mqtt.golang
-- package: golang.org/x/net/websocket
-- package: golang.org/x/net/proxy
+- package: golang.org/x/net
+  subpackages:
+  - proxy
+  - websocket
 - package: github.com/Shopify/sarama
   version: ^1.17.0
 - package: github.com/bsm/sarama-cluster
   version: ^2.1.13
+- package: github.com/eapache/go-resiliency
+  version: ^1.1.0
+  subpackages:
+  - breaker
+- package: github.com/eapache/go-xerial-snappy
+- package: github.com/eapache/queue
+  version: ^1.1.0
+- package: github.com/pierrec/lz4
+  version: ^2.0.2
+- package: github.com/rcrowley/go-metrics
+- package: github.com/spf13/cobra
+  version: ^0.0.3
+  subpackages:
+  - cobra
