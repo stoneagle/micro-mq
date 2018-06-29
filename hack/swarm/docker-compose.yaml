@@ -7,6 +7,7 @@ services:
       EMQ_TCP_PORT: 1883 
     ports:     
       - "${EMQTT_PORT}:1883" 
+      - "${EMQTT_WS_PORT}:8083"
       - "${EMQTT_MANAGE_PORT}:18083"
     networks:  
       - default
@@ -17,23 +18,23 @@ services:
       - "2181" 
     networks:  
       - default
-  manager:     
-    image: sheepkiller/kafka-manager
-    container_name: ${PROJECT_NAME}-${DEV_USER}-zk-manager
-    environment:
-      ZK_HOSTS: zookeeper:2181
-      APPLICATION_SECRET: 123456
-    depends_on:
-      - zookeeper
-    ports:     
-      - "${MANAGE_PORT}:9000"
-    networks:  
-      - default
+  # manager:     
+  #   image: sheepkiller/kafka-manager
+  #   container_name: ${PROJECT_NAME}-${DEV_USER}-zk-manager
+  #   environment:
+  #     ZK_HOSTS: zookeeper:2181
+  #     APPLICATION_SECRET: 123456
+  #   depends_on:
+  #     - zookeeper
+  #   ports:     
+  #     - "${MANAGE_PORT}:9000"
+  #   networks:  
+  #     - default
   kafka:
     image: wurstmeister/kafka
     container_name: ${PROJECT_NAME}-${DEV_USER}-kafka
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_HOST_NAME: kafka 
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     ports:
       - "${KAFKA_PORT}:9092"

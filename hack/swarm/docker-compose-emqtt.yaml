@@ -1,0 +1,32 @@
+version: '2'
+services:
+  producer:
+    image: mq/golang:1.10 
+    container_name: ${PROJECT_NAME}-${DEV_USER}-producer
+    volumes:
+      # 挂载项目代码目录
+      - ../../backend:/go/src/mq/backend
+    working_dir: /go/src/mq/backend/demo/kafka/producer
+    entrypoint:
+      - bee
+      - run
+    networks:
+      - default
+  consumer:
+    image: mq/golang:1.10 
+    container_name: ${PROJECT_NAME}-${DEV_USER}-consumer
+    volumes:
+      # 挂载项目代码目录
+      - ../../backend:/go/src/mq/backend
+    working_dir: /go/src/mq/backend/demo/kafka/consumer
+    depends_on:
+      - producer
+    entrypoint:
+      - bee
+      - run
+    networks:
+      - default
+networks:
+  default:
+    external:
+      name: ${DEV_USER}                      

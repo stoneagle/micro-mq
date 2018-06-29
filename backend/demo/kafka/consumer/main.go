@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -16,9 +17,9 @@ func main() {
 	config.Group.Return.Notifications = true
 
 	// init consumer
-	brokers := []string{"127.0.0.1:9092"}
-	topics := []string{"my_topic", "other_topic"}
-	consumer, err := cluster.NewConsumer(brokers, "my-consumer-group", topics, config)
+	brokers := []string{"kafka:9092"}
+	topics := []string{"test"}
+	consumer, err := cluster.NewConsumer(brokers, "test-group", topics, config)
 	if err != nil {
 		panic(err)
 	}
@@ -48,10 +49,35 @@ func main() {
 		case msg, ok := <-consumer.Messages():
 			if ok {
 				fmt.Fprintf(os.Stdout, "%s/%d/%d\t%s\t%s\n", msg.Topic, msg.Partition, msg.Offset, msg.Key, msg.Value)
+				go consumePoint(msg.Value)
 				consumer.MarkOffset(msg, "") // mark message as processed
 			}
 		case <-signals:
 			return
 		}
 	}
+}
+
+type filter struct {
+	Url    string
+	Topic  string
+	Action string
+	Point  string
+	Filter int
+	Triger string
+}
+
+type msgInfo struct {
+	Action    string
+	Topic     string
+	Timestamp int64
+}
+
+func consumePoint(msg []byte) {
+	message := msgInfo{}
+	err := json.Unmarshal(msg, &message)
+	if err != nil {
+		fmt.Printf("%v\r\n", err)
+	}
+	fmt.Printf("%v\r\n", message)
 }

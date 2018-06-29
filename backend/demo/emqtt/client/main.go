@@ -45,8 +45,9 @@ func emqtt() {
 	}
 
 	//unsubscribe topic
+	topic := "/OGY0ZTRiMzVjMGNi/clients/4000106300000017/event/device_info"
 	time.Sleep(180 * time.Second)
-	if token := c.Unsubscribe("go-mqtt/sample"); token.Wait() && token.Error() != nil {
+	if token := c.Unsubscribe(topic); token.Wait() && token.Error() != nil {
 		fmt.Println(token.Error())
 		os.Exit(1)
 	}

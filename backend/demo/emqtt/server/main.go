@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -18,14 +20,14 @@ func main() {
 }
 
 func emqtt() {
-	// mqtt.DEBUG = log.New(os.Stdout, "", 0)
-	// mqtt.ERROR = log.New(os.Stdout, "", 0)
+	mqtt.DEBUG = log.New(os.Stdout, "", 0)
+	mqtt.ERROR = log.New(os.Stdout, "", 0)
 
 	//connect mqtt-server and set clientID
 	opts := mqtt.NewClientOptions().AddBroker("tcp://localhost:1883").SetClientID("4000100020003000")
 
 	//set userName
-	opts.SetUsername("zhiban-dev")
+	opts.SetUsername("OGY0ZTRiMzVjMGNi")
 	opts.SetKeepAlive(2 * time.Second)
 	opts.SetDefaultPublishHandler(f)
 	opts.SetPingTimeout(1 * time.Second)
@@ -40,9 +42,9 @@ func emqtt() {
 	topic := "/OGY0ZTRiMzVjMGNi/clients/4000106300000017/event/device_info"
 
 	// publish topic
-	for i := 0; i < 5000; i++ {
+	for i := 0; i < 100; i++ {
 		token := c.Publish(topic, 0, false, msg)
-		time.Sleep(2 * time.Millisecond)
+		time.Sleep(100 * time.Millisecond)
 		token.Wait()
 	}
 

@@ -1,2 +1,6 @@
 ## backend
 backend/vendor
+backend/demo/emqtt/client/client
+backend/demo/emqtt/server/server
+backend/demo/kafka/consumer/consumer
+backend/demo/kafka/producer/producer
